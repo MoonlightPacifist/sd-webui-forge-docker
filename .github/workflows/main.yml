@@ -1,4 +1,4 @@
-            - name: push-to-ghcr
+  - name: push-to-ghcr
   # You may pin to the exact commit or the version.
   # uses: macbre/push-to-ghcr@91a23f5ca90410345e37d8252ae43b0b89942c6f
   uses: macbre/push-to-ghcr@v14
@@ -21,4 +21,3 @@
     image_tag: # optional
     # Additional build argument to be passed to the Dockerfile (e.g. NODE_AUTH_TOKEN=s3cr3t)
     build_arg: # optional, default is FOO=bar
-          
