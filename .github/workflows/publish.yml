@@ -1,0 +1,34 @@
+
+name: publish
+
+on: [push]
+
+jobs:
+
+publish-docker-image:
+
+runs-on: ubuntu-latest
+
+steps:
+
+- uses: actions/checkout@v2
+
+- name: Login to GitHub Container Registry
+
+uses: docker/login-action@v1
+
+with:
+
+registry: ghcr.io
+
+username: ${{ github.actor }}
+
+password: ${{ secrets.GITHUB_TOKEN }}
+
+- name: Build sd-webui-reforge-docker
+
+run: |
+
+       docker build . --tag ghcr.io/MoonlightPacifist/lsd-webui-reforge-docker:latest
+
+       docker push ghcr.io/MoonlightPacifist/sd-webui-reforge-docker:latest
