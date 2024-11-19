@@ -15,6 +15,13 @@ if [ ! -d "/app/sd-webui" ] || [ ! "$(ls -A "/app/sd-webui")" ]; then
     git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /app/sd-webui
     cd /app/sd-webui
   fi
+  
+  # adding support for reForge
+  if [ "$UI" = "reforge" ]; then
+    echo "Using reForge"
+    git clone https://github.com/Panchovix/stable-diffusion-webui-reForge.git /app/sd-webui
+    cd /app/sd-webui
+  fi
 
   chmod +x /app/sd-webui/webui.sh
 
