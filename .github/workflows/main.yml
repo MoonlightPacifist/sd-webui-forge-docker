@@ -1,23 +1,29 @@
-  - name: push-to-ghcr
-  # You may pin to the exact commit or the version.
-  # uses: macbre/push-to-ghcr@91a23f5ca90410345e37d8252ae43b0b89942c6f
-  uses: macbre/push-to-ghcr@v14
-  with:
-    # Your secrets.GITHUB_TOKEN
-    github_token: ${{ secrets.TOKEN }} 
-    # Image name, e.g. my-user-name/my-repo (will be lowercased)
-    image_name: sd-webui-forge-docker
-    # A path to the Dockerfile (if it's not in the repository's root directory)
-    dockerfile: # optional, default is ./Dockerfile
-    # A path to the context in which the build will happen, see https://docs.docker.com/engine/reference/commandline/build/
-    context: # optional, default is .
-    # Docker repository to push an image to, defaults to ghcr.io
-    repository: # default is ghcr.io
-    # A username to use when pushing an image to docker.io (defaults to the github.actor)
-    docker_io_user: # optional
-    # Your docker.io token created via https://hub.docker.com/settings/security
-    docker_io_token: # optional
-    # Image tag, e.g. latest. Will overwrite the tag latest tag on a push, and have no effect on a release.
-    image_tag: # optional
-    # Additional build argument to be passed to the Dockerfile (e.g. NODE_AUTH_TOKEN=s3cr3t)
-    build_arg: # optional, default is FOO=bar
+name: Build and publish a Docker image to ghcr.io
+on:
+
+  # publish on releases, e.g. v2.1.13 (image tagged as "2.1.13" - "v" prefix is removed)
+  release:
+    types: [ published ]
+
+  # publish on pushes to the main branch (image tagged as "latest")
+  push:
+    branches:
+      - master
+
+jobs:
+  docker_publish:
+    runs-on: "ubuntu-20.04"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # https://github.com/marketplace/actions/push-to-ghcr
+      - name: Build and publish a Docker image for ${{ github.repository }}
+        uses: macbre/push-to-ghcr@master
+        with:
+          image_name: ${{ github.repository }}  # it will be lowercased internally
+          github_token: ${{ secrets.TOKEN }}
+          # optionally push to the Docker Hub (docker.io)
+          # docker_io_token: ${{ secrets.DOCKER_IO_ACCESS_TOKEN }}  # see https://hub.docker.com/settings/security
+          # customize the username to be used when pushing to the Docker Hub
+          # docker_io_user: foobar  # see https://github.com/macbre/push-to-ghcr/issues/14
