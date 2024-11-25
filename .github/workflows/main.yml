@@ -9,6 +9,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - Dockerfile
+    tags-ignore:
+      - "*"
 
 jobs:
   docker_publish:
