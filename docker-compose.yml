@@ -7,7 +7,7 @@ services:
     ports:
       - "7860:7860"
     environment:
-      - "ARGS=--listen --enable-insecure-extension-acces"
+      - "ARGS=--listen --enable-insecure-extension-access ${WEBUI_ARGS}" 
       - "UI=reforge"
     deploy:
       resources:
